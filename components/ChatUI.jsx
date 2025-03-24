@@ -4,6 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Assuming Shadcn UI
 import { Send } from "lucide-react";
+import { useMarkdownRenderer } from "@/hooks/useMarkdownRenderer";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit }) {
   const [messages, setMessages] = useState([
@@ -11,13 +14,14 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
   ]);
   const [input, setInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
-  const [localUserInfo, setLocalUserInfo] = useState(userInfo); // Local state for inputs
+  const [localUserInfo, setLocalUserInfo] = useState(userInfo);
   const chatEndRef = useRef(null);
+  const { MarkdownComponents } = useMarkdownRenderer();
 
   const predefinedMessages = [
     {
       text: "Book a Call",
-      action: () => addMessage("I’d like to schedule a call!"),
+      action: () => addMessage("I'd like to schedule a call!"),
     },
     {
       text: "Ask a Question",
@@ -25,14 +29,12 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
     },
   ];
 
-  // Auto-scroll to the latest message
   useEffect(() => {
     if (messages.length > 1 && chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  // Sync localUserInfo with prop changes (if needed)
   useEffect(() => {
     setLocalUserInfo(userInfo);
   }, [userInfo]);
@@ -43,10 +45,7 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!input.trim()) {
-      alert("Please enter a message.");
-      return;
-    }
+    if (!input.trim()) return;
 
     addMessage(input, false);
     setInput("");
@@ -65,18 +64,13 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch bot response");
-      }
-
+      if (!response.ok) throw new Error("Failed to fetch bot response");
+      
       const data = await response.json();
       addMessage(data.response, true);
     } catch (error) {
       console.error("Error:", error);
-      addMessage(
-        "Sorry, I couldn't process your request. Please try again.",
-        true
-      );
+      addMessage("Sorry, I couldn't process your request. Please try again.", true);
     } finally {
       setIsBotTyping(false);
     }
@@ -88,8 +82,73 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
       alert("Please enter your name and email.");
       return;
     }
-    onUserInfoSubmit(localUserInfo); // Pass the updated info to the parent
+    onUserInfoSubmit(localUserInfo);
   };
+
+  const handleMarkdownFormSubmit = (e, messageIndex) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    
+    // Update the message with submitted data
+    setMessages(prev => prev.map((msg, idx) => 
+      idx === messageIndex 
+        ? { ...msg, submittedData: data } 
+        : msg
+    ));
+    
+    // You could also send this to your API
+    console.log("Form submitted:", data);
+  };
+
+  const renderMessage = (msg, index) => (
+    <div
+      key={index}
+      className={`flex items-start gap-2 ${
+        msg.isBot ? "justify-start" : "justify-end"
+      }`}
+    >
+      {msg.isBot && (
+        <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
+          G
+        </div>
+      )}
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className={`max-w-[70%] p-3 rounded-lg ${
+          msg.isBot
+            ? "bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 text-sm"
+            : "bg-cyan-300 text-slate-900 text-sm"
+        }`}
+      >
+        <Markdown
+          components={{
+            ...MarkdownComponents,
+            form: (props) => (
+              <MarkdownComponents.form 
+                {...props} 
+                onSubmit={(e) => handleMarkdownFormSubmit(e, index)}
+              />
+            )
+          }}
+          remarkPlugins={[remarkGfm]}
+        >
+          {msg.text}
+        </Markdown>
+        {msg.submittedData && (
+          <div className="mt-2 p-2 bg-cyan-500/10 rounded text-xs">
+            Submitted: {JSON.stringify(msg.submittedData)}
+          </div>
+        )}
+      </motion.div>
+      {!msg.isBot && (
+        <div className="w-8 h-8 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-300 font-bold">
+          U
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className="bg-[rgba(10,10,20,0.95)] border border-cyan-500/20 rounded-xl h-[450px] flex flex-col shadow-[0_0_20px_rgba(6,182,212,0.2)]">
@@ -99,39 +158,10 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
         <span className="text-xs text-slate-500">Powered by LLM GEM</span>
       </div>
 
-      {/* Chat Messages with Custom Scrollbar */}
+      {/* Chat Messages */}
       <ScrollArea className="flex-1 h-52 overflow-y-auto">
         <div className="p-4 space-y-4">
-          {messages.map((msg, index) => (
-            <div
-              key={index}
-              className={`flex items-start gap-2 ${
-                msg.isBot ? "justify-start" : "justify-end"
-              }`}
-            >
-              {msg.isBot && (
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
-                  G
-                </div>
-              )}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`max-w-[70%] p-3 rounded-lg ${
-                  msg.isBot
-                    ? "bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 text-sm"
-                    : "bg-cyan-300 text-slate-900 text-sm"
-                }`}
-              >
-                {msg.text}
-              </motion.div>
-              {!msg.isBot && (
-                <div className="w-8 h-8 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-300 font-bold">
-                  U
-                </div>
-              )}
-            </div>
-          ))}
+          {messages.map(renderMessage)}
           {isBotTyping && (
             <div className="flex items-start gap-2">
               <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
@@ -146,7 +176,7 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
         </div>
       </ScrollArea>
 
-      {/* User Info Form (if not submitted) */}
+      {/* User Info Form */}
       {!isUserInfoSubmitted && (
         <form onSubmit={handleUserInfoSubmit} className="p-4 border-t border-slate-800">
           <div className="space-y-4">
@@ -180,7 +210,7 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
         </form>
       )}
 
-      {/* Chat Input (if user info is submitted) */}
+      {/* Chat Input */}
       {isUserInfoSubmitted && (
         <>
           <div className="p-4 border-t border-slate-800 flex gap-2">

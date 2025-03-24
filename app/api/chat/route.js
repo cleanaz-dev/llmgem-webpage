@@ -1,48 +1,51 @@
-//api/chat/route.js
+// app/api/chat/route.js
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+const anthropic = new Anthropic(process.env.ANTHROPIC_API_KEY);
 
 export async function POST(req) {
   try {
-    const { message, name, email } = await req.json();
-    console.log("Message received:", message, name, email);
+    const { message } = await req.json();
 
-    if (!message) {
-      return NextResponse.json(
-        { error: "Message is required" },
-        { status: 400 },
-      );
+    // 1. Precise intent detection with Haiku
+    const { content } = await anthropic.messages.create({
+      model: "claude-3-haiku-20240307",
+      max_tokens: 50,
+      temperature: 0,
+      system: "Classify as BOOKING or CHAT only. Be strict.",
+      messages: [{
+        role: "user",
+        content: `Is this a request to schedule a call/meeting? Reply ONLY "BOOKING" or "CHAT":\n\n${message}`
+      }]
+    });
+
+    const intent = content[0].text.trim();
+
+    // 2. Handle booking intent
+    if (intent === "BOOKING") {
+      return NextResponse.json({ type: "booking" });
     }
 
-    const systemPrompt = 
-      `Your a friendly assistant on a AI Agency website LLM GEM. Users will ask you certain questions. Reply as best as you can for now. Replys should be concise and focused, one or two sentences max.`;
-
+    // 3. Generate chat response
     const response = await anthropic.messages.create({
       model: "claude-3-haiku-20240307",
       max_tokens: 300,
-      temperature: 0.3,
-      system: systemPrompt,
-      messages: [{ role: "user", content: message }],
+      messages: [{
+        role: "user",
+        content: `Respond concisely, 1 or 2 sentences max, to this message:\n\n${message}`
+      }]
     });
 
-    const responseText = response.content[0].text;
+    return NextResponse.json({
+      type: "chat",
+      response: response.content[0].text
+    });
 
-    console.log("response:", responseText);
-
-
-    return NextResponse.json(
-      { response: responseText  },
-      { status: 200 },
-    );
   } catch (error) {
-    console.error("Error:", error);
-    return NextResponse.json(
-      { error: "Failed to process request" },
-      { status: 500 },
-    );
+    return NextResponse.json({
+      type: "chat",
+      response: "I couldn't process that. Would you like to schedule a call instead?"
+    }, { status: 500 });
   }
 }

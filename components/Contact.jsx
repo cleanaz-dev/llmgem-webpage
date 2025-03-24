@@ -1,25 +1,13 @@
 "use client";
 
 import { Mail, Phone } from "lucide-react";
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion"; // Import Framer Motion for animations
-import ChatUI from "./ChatUI"; // Import the new ChatUI component
+import { useState } from "react";
+import ChatUI2 from "./ChatUI2"; // Import the new ChatUI component
+import ContactText from "./ContactText"; // Import the new ContactText component
 
 export default function Contact() {
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
   const [isUserInfoSubmitted, setIsUserInfoSubmitted] = useState(false);
-  const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
-
-  // Updated titles array with "Connect Now!"
-  const titles = ["Let's talk!", "Got an idea?", "Connect Now!"];
-
-  // Cycle through titles every 3 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length);
-    }, 3000); // Change every 3 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [titles.length]);
 
   return (
     <div className="w-full bg-black p-4 lg:p-8">
@@ -30,16 +18,7 @@ export default function Contact() {
           {/* Left Side: Contact Information */}
           <div className="flex flex-col justify-around md:w-1/2">
             <div>
-              <motion.h2
-                key={titles[currentTitleIndex]} // Key ensures animation triggers on text change
-                initial={{ opacity: 0, y: 20, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -20, scale: 0.9 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }} // Smooth transition
-                className="text-3xl md:text-5xl tracking-wide font-bold text-cyan-300 mb-4"
-              >
-                {titles[currentTitleIndex]}
-              </motion.h2>
+              <ContactText /> {/* Use the new component here */}
             </div>
             <div className="space-y-4">
               <p className="text-slate-300 flex items-center gap-2">
@@ -67,7 +46,7 @@ export default function Contact() {
 
           {/* Right Side: Chat UI */}
           <div className="md:w-1/2">
-            <ChatUI
+            <ChatUI2
               userInfo={userInfo}
               isUserInfoSubmitted={isUserInfoSubmitted}
               onUserInfoSubmit={(updatedUserInfo) => {

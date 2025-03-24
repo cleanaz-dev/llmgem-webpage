@@ -39,12 +39,13 @@ export default function Nav() {
   }, []);
 
   return (
-    <motion.nav
-      className="fixed top-0 left-0 w-full z-20 text-white py-6  backdrop-blur-lg"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1, ease: "easeOut" }}
-    >
+<motion.nav
+  className="fixed top-0 left-0 w-full z-20 text-white py-6 bg-gradient-to-b from-black/70 via-black/40 to-transparent backdrop-blur-2xl shadow-md shadow-black/20"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1, ease: "easeOut" }}
+>
+
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center text-2xl font-bold gap-2 cursor-pointer" onClick={() => scrollToSection("home")}>

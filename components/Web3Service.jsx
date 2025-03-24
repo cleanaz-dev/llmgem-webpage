@@ -62,15 +62,15 @@ export default function Web3Service() {
   };
 
   return (
-    <div className="w-full h-[525px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-4">
+    <div className="w-full h-[500px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-10">
       {/* Top: Crypto Icons with Full Masking */}
-      <div className="relative w-full h-14 overflow-hidden mt-6 ">
+      <div className="relative w-full h-12 overflow-hidden mt-6 ">
         {/* Masks (Top, Bottom, Left, Right) */}
         <div className="absolute inset-0 bg-gradient-to-b from-[rgba(10,10,20,0.9)] via-transparent to-[rgba(10,10,20,0.9)] z-10" />
         <div className="absolute inset-0 bg-gradient-to-r from-[rgba(10,10,20,0.9)] via-transparent to-[rgba(10,10,20,0.9)] z-10" />
 
         {/* Marquee with Grayscale-to-Color Effect */}
-        <div className="absolute top-0 w-full h-14 overflow-hidden mask-fade bg-transparent">
+        <div className="absolute top-0 w-full h-12 overflow-hidden mask-fade bg-slate-900/10">
           <div className="flex animate-infinite-scroll-left">
             {[...CRYPTOS, ...CRYPTOS].map((crypto, index) => (
               <div key={`${crypto.id}-${index}`} className="mx-8 shrink-0">
@@ -82,7 +82,7 @@ export default function Web3Service() {
       </div>
 
       {/* Middle: Simulation */}
-      <div className="w-full flex-1 px-6 overflow-y-auto flex flex-col items-start overflow-hidden">
+      <div className="w-full flex-1 px-6 py-1.5 overflow-y-auto flex flex-col items-start overflow-hidden">
         {step === 0 ? (
           <motion.button
             initial={{ opacity: 0 }}
@@ -193,24 +193,12 @@ export default function Web3Service() {
                 </motion.div>
               )}
             </AnimatePresence>
-
-            {/* Complete Another Transaction */}
-            {step === 4 && (
-              <motion.button
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                onClick={resetSimulation}
-                className="w-full px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded-lg hover:bg-cyan-500/30 transition-colors"
-              >
-                Complete Another Transaction
-              </motion.button>
-            )}
           </motion.div>
         )}
       </div>
 
       {/* Bottom: Title & Tagline */}
-      <div className="w-full text-left px-2 py-6 border-cyan-500/20">
+      <div className="w-full text-left px- py-6 border-cyan-500/20">
         <h2 className="service-title">Web3 Integration</h2>
         <p className="service-description">
           Revolutionize your business with Web3 innovation, using decentralized

@@ -35,7 +35,7 @@ export default function Services() {
       </div>
 
       <div className="mx-auto lg:max-w-[1500px] mb-16">
-        <h1 className="section-header">What we do</h1>
+        <h1 className="section-header">Services</h1>
         <p className="section-description px-4 md:px-0">
           We specialize in building and implementing custom AI solutions
           tailored to your specific needs. Our team of experts will help you
