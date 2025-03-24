@@ -36,7 +36,7 @@ export default function Contact() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, scale: 0.9 }}
                 transition={{ duration: 0.5, ease: "easeInOut" }} // Smooth transition
-                className="text-5xl tracking-wide font-bold text-cyan-300 mb-4"
+                className="text-3xl md:text-5xl tracking-wide font-bold text-cyan-300 mb-4"
               >
                 {titles[currentTitleIndex]}
               </motion.h2>
