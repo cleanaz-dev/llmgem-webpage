@@ -22,7 +22,7 @@ export default function Contact() {
   }, [titles.length]);
 
   return (
-    <div className="w-full bg-black p-8">
+    <div className="w-full bg-black p-4 lg:p-8">
       {/* Centered Container */}
       <div className="max-w-4xl mx-auto">
         {/* Two-Column Layout */}
