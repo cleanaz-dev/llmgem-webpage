@@ -48,11 +48,11 @@ export default function QA() {
   ];
 
   return (
-    <div className="flex flex-col items-center w-full p-4 md:p-10 bg-black z-0">
+    <div className="flex flex-col items-center w-full p-4 md:p-10 bg-black">
       
      
       {/* Title and Tagline */}
-      <div className="relative text-center mb-10 z-20">
+      <div className="relative text-center mb-10">
         <h1 className="mb-8 text-6xl bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent">
           Answers
         </h1>
@@ -62,7 +62,7 @@ export default function QA() {
       </div>
 
       {/* Q/A Items */}
-      <div className="relative z-10 w-full max-w-4xl space-y-4">
+      <div className="relative w-full max-w-4xl space-y-4">
         {qaData.map((item, index) => {
           const isExpanded = expandedIndices.includes(index);
           return (
