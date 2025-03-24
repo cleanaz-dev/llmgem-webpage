@@ -36,7 +36,7 @@ export default function Services() {
 
       <div className="mx-auto lg:max-w-[1500px] mb-16">
         <h1 className="section-header">What we do</h1>
-        <p className="section-description">
+        <p className="section-description px-4 md:px-0">
           We specialize in building and implementing custom AI solutions
           tailored to your specific needs. Our team of experts will help you
           develop AI-powered solutions that meet your business objectives, while

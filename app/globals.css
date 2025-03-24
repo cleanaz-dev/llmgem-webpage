@@ -239,3 +239,9 @@
     transparent
   );
 }
+
+body {
+  @apply bg-black;
+  overscroll-behavior: none; /* Prevents the iOS rubber band effect */
+  height: 100%; /* Ensures full-page coverage */
+}
