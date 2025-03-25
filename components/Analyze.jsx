@@ -19,7 +19,7 @@ export default function Analyze() {
           {analyzeIcons.slice(0, 3).map((logo) => (
             <div
               key={logo.id}
-              className={`logo-glow w-16 h-16 flex items-center justify-center ${logo.position}`}
+              className={`logo-glow size-14 md:size-16 flex items-center justify-center ${logo.position}`}
             >
               <span className="text-slate-600 text-2xl">{logo.icon}</span>
             </div>
@@ -27,7 +27,7 @@ export default function Analyze() {
         </div>
 
         {/* Central Logo */}
-        <div className="w-16 h-16 border border-slate-900 rounded-md flex items-center justify-center">
+        <div className="size-14 md:size-16 border border-slate-900 rounded-md flex items-center justify-center">
           <span className="text-white text-4xl">
             <FaGem className="fill-cyan-400 size-8 mt-0.5 shimmer" stroke={1} />
           </span>
@@ -38,7 +38,7 @@ export default function Analyze() {
           {analyzeIcons.slice(3).map((logo) => (
             <div
               key={logo.id}
-              className={`logo-glow w-16 h-16 flex items-center justify-center ${logo.position}`}
+              className={`logo-glow size-14 md:size-16 flex items-center justify-center ${logo.position}`}
             >
               <span className="text-slate-600 text-2xl">{logo.icon}</span>
             </div>

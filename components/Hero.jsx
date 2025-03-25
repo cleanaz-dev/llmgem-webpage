@@ -4,6 +4,7 @@ import { motion, useAnimation } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Nav from "./Nav"; // Adjust path as needed
 import useOrbsAnimation from "@/hooks/useOrbsAnimation";
+import { FaGem } from "react-icons/fa";
 
 export default function Hero() {
   const canvasRef = useRef(null);
@@ -48,7 +49,7 @@ export default function Hero() {
           initial={{ y: "100vh", opacity: 0 }}
           animate={introControls}
         >
-          LLM GEM
+          <FaGem />
         </motion.h1>
       )}
 

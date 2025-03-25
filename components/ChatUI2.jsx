@@ -139,20 +139,24 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
     return (
       <div
         key={index}
-        className={`flex items-start gap-2 ${
-          msg.isBot ? "justify-start" : "justify-end"
+        className={`flex flex-col gap-1 ${
+          msg.isBot ? "items-start" : "items-end"
         }`}
       >
-        {msg.isBot && (
-          <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
-            G
-          </div>
-        )}
+        {/* Bot/User designation moved above the message */}
+        <div
+          className={`text-xs font-bold ${
+            msg.isBot ? "text-cyan-300" : "text-slate-300"
+          }`}
+        >
+          {msg.isBot ? "AI" : "You"}
+        </div>
+    
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className={`${
-            msg.isBooking ? "w-full" : "max-w-[70%]"
+            msg.isBooking ? "w-full" : "max-w-[85%]"
           } p-3 rounded-lg ${
             msg.isBot
               ? "bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 text-sm"
@@ -168,13 +172,12 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
                     url={process.env.NEXT_PUBLIC_CALENDLY_URL}
                     styles={{
                       width: "100%",
-                      height: "400px",
+                      height: "600px",
                       maxWidth: "100%",
                     }}
                     prefill={{
                       name: userInfo.name,
                       email: userInfo.email,
-
                     }}
                   />
                 </div>
@@ -186,11 +189,6 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
             <p>{msg.text}</p>
           )}
         </motion.div>
-        {!msg.isBot && (
-          <div className="w-8 h-8 rounded-full bg-slate-500/20 flex items-center justify-center text-slate-300 font-bold">
-            U
-          </div>
-        )}
       </div>
     );
   };
@@ -219,8 +217,8 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
           <span className="text-xs text-slate-500">Powered by LLM GEM</span>
         </div>
 
-        <ScrollArea className="flex-1 h-52 overflow-y-auto">
-          <div className="p-4 space-y-4">
+        <ScrollArea className="flex-1 h-96 overflow-y-auto">
+          <div className="p-2 md:p-4 space-y-4">
             {messages.map(renderMessage)}
             {isBotTyping && (
               <div className="flex items-start gap-2">

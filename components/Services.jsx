@@ -12,25 +12,23 @@ export default function Services() {
     <section className="w-full bg-black text-white">
       <div className="relative text-center">
         {/* Foreground Content */}
-        <div className="relative z-10 py-24">
-          {/* LLM GEM Text (Foreground) */}
-          <h1 className="text-[75px] md:text-[200px] lg:text-[300px] bg-gradient-to-b from-slate-700/10 via-cyan-400/10 to-slate-700/10 bg-clip-text text-transparent tracking-wide scale-y-[1.3] md:scale-y-[1.1] transform whitespace-nowrap overflow-hidden">
-            LLM GEM
-          </h1>
+        <div className="relative w-full h-[70vh] min-h-[500px] flex items-center justify-center overflow-visible">
+          {/* Split Text Container */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-0 md:gap-4">
+            <span className="text-[40vw] md:text-[20vw] font-bold bg-gradient-to-b from-slate-700/10 via-cyan-400/10 to-slate-700/10 bg-clip-text text-transparent tracking-tight leading-[0.8]">
+              LLM
+            </span>
+            <span className="text-[40vw] md:text-[20vw] font-bold bg-gradient-to-b from-slate-700/10 via-cyan-400/10 to-slate-700/10 bg-clip-text text-transparent tracking-tight leading-[0.8]">
+              GEM
+            </span>
+          </div>
 
-          {/* Tagline Text (Centered over LLM GEM Text) */}
-          <p
-            className="text-slate-500 text-xl md:text-3xl w-full"
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              zIndex: 20,
-            }}
-          >
-            We develop custom AI solutions for innovative companies.
-          </p>
+          {/* Tagline Text - Centered overlay */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <p className="text-slate-500 text-xl md:text-3xl px-6 py-3 text-center max-w-2xl mx-auto ">
+              We develop custom AI solutions for innovative companies.
+            </p>
+          </div>
         </div>
       </div>
 

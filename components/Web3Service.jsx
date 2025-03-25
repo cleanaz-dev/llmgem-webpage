@@ -62,7 +62,7 @@ export default function Web3Service() {
   };
 
   return (
-    <div className="w-full h-[500px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-10">
+    <div className="w-full h-[500px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-4 md:px-8">
       {/* Top: Crypto Icons with Full Masking */}
       <div className="relative w-full h-12 overflow-hidden mt-6 ">
         {/* Masks (Top, Bottom, Left, Right) */}
@@ -156,7 +156,8 @@ export default function Web3Service() {
                       <span className="text-cyan-300">{RECEIVER_ADDRESS}</span>
                     </p>
                     <p>
-                      Amount: {amount} {selectedCrypto}
+                      Amount:{" "} 
+                      {CRYPTOS.find((c) => c.id === selectedCrypto)?.amount}{" "} {selectedCrypto}
                     </p>
                     <p>
                       Gas:{" "}
@@ -198,7 +199,7 @@ export default function Web3Service() {
       </div>
 
       {/* Bottom: Title & Tagline */}
-      <div className="w-full text-left px- py-6 border-cyan-500/20">
+      <div className="w-full text-left py-6 border-cyan-500/20">
         <h2 className="service-title">Web3 Integration</h2>
         <p className="service-description">
           Revolutionize your business with Web3 innovation, using decentralized

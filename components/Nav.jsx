@@ -1,114 +1,139 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Menu } from "lucide-react";
+import { useState } from "react";
 import { FaGem } from "react-icons/fa";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetClose,
+  SheetDescription,
+} from "@/components/ui/sheet";
+
+const NAV_ITEMS = [
+  "Services",
+  "Process",
+  "Pricing",
+  "FAQ",
+  "Contact",
+];
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { type: "spring", stiffness: 100 } }
+};
 
 export default function Nav() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [open, setOpen] = useState(false);
 
-  // Smooth scroll to section
   const scrollToSection = (id) => {
     const section = document.getElementById(id);
     if (section) {
       section.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(id);
-      setIsOpen(false); // Close mobile menu after clicking a link
     }
   };
 
-  // Sticky navbar on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["home", "services", "process", "pricing", "faq", "contact"];
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-<motion.nav
-  className="fixed top-0 left-0 w-full z-20 text-white py-6 bg-gradient-to-b from-black/70 via-black/40 to-transparent backdrop-blur-2xl shadow-md shadow-black/20"
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 1, ease: "easeOut" }}
->
-
+    <motion.nav
+      className="fixed top-0 left-0 w-full z-50 text-white py-4 md:py-5 bg-gradient-to-b from-black/70 via-black/40 to-transparent backdrop-blur-2xl shadow-md shadow-black/20"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1, ease: "easeOut" }}
+    >
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center text-2xl font-bold gap-2 cursor-pointer" onClick={() => scrollToSection("home")}>
+        <button
+          className="flex items-center text-2xl font-bold gap-2"
+          onClick={() => scrollToSection("home")}
+        >
           <FaGem className="fill-cyan-400 size-5 mt-0.5 shimmer" stroke={1} />
-          LLM GEM
-        </div>
+          <span className="text-base md:text-2xl">LLM GEM</span>
+        </button>
 
         {/* Desktop Navigation */}
         <ul className="hidden sm:flex gap-8">
-          {["Home", "Services", "Process", "Pricing", "FAQ", "Contact"].map((item) => (
-            <li key={item.toLowerCase()}>
-              <a
-                href={`#${item.toLowerCase()}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.toLowerCase());
-                }}
-                className={`hover:text-teal-500 transition ${
-                  activeSection === item.toLowerCase() ? "text-teal-500" : ""
-                }`}
-              >
-                {item}
-              </a>
-            </li>
-          ))}
+          {NAV_ITEMS.map((item) => {
+            const id = item.toLowerCase();
+            return (
+              <li key={id}>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => scrollToSection(id)}
+                  className="hover:text-teal-500 transition"
+                >
+                  {item}
+                </motion.button>
+              </li>
+            );
+          })}
         </ul>
 
-        {/* Mobile Menu Button */}
-        <button
-          className="sm:hidden text-teal-500 focus:outline-none"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? "Close" : "Menu"}
-        </button>
-      </div>
-
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="sm:hidden bg-black/90 px-4 py-6 flex flex-col gap-4"
+        {/* Mobile Navigation Sheet */}
+        <Sheet open={open} onOpenChange={setOpen}>
+          <SheetTrigger asChild>
+            <motion.button 
+              className="sm:hidden text-teal-500 focus:outline-none"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <Menu className="h-6 w-6" />
+            </motion.button>
+          </SheetTrigger>
+          
+          <SheetContent
+            side="top"
+            className="bg-[#0a0a14]/95 border-b border-cyan-500/20 backdrop-blur-2xl"
           >
-            {["Home", "Services", "Process", "Pricing", "FAQ", "Contact"].map((item) => (
-              <a
-                key={item.toLowerCase()}
-                href={`#${item.toLowerCase()}`}
-                onClick={(e) => {
-                  e.preventDefault();
-                  scrollToSection(item.toLowerCase());
-                }}
-                className={`hover:text-teal-500 transition ${
-                  activeSection === item.toLowerCase() ? "text-teal-500" : ""
-                }`}
-              >
-                {item}
-              </a>
-            ))}
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <SheetHeader className="text-center">
+              <SheetTitle className="text-white font-light tracking-wider">Menu</SheetTitle>
+              <SheetDescription>{""}</SheetDescription>
+            </SheetHeader>
+            
+            <motion.div 
+              className="flex flex-col h-full pb-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="show"
+            >
+              <nav className="flex-1 space-y-4 pt-6">
+                {NAV_ITEMS.map((item) => {
+                  const id = item.toLowerCase();
+                  return (
+                    <SheetClose asChild key={id}>
+                      <motion.button
+                        variants={itemVariants}
+                        onClick={() => scrollToSection(id)}
+                        className="w-full text-center text-lg tracking-widest text-teal-500 transition hover:text-white cursor-pointer"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        {item}
+                      </motion.button>
+                    </SheetClose>
+                  );
+                })}
+              </nav>
+            </motion.div>
+          </SheetContent>
+        </Sheet>
+      </div>
     </motion.nav>
   );
 }
