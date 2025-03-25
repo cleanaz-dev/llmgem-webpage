@@ -152,7 +152,7 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className={`${
-            msg.isBooking ? "max-w-[95%]" : "max-w-[70%]"
+            msg.isBooking ? "w-full" : "max-w-[70%]"
           } p-3 rounded-lg ${
             msg.isBot
               ? "bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 text-sm"
@@ -174,6 +174,7 @@ export default function ChatUI({ userInfo, isUserInfoSubmitted, onUserInfoSubmit
                     prefill={{
                       name: userInfo.name,
                       email: userInfo.email,
+
                     }}
                   />
                 </div>
