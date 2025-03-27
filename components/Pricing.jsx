@@ -1,18 +1,16 @@
 "use client";
 
-import { CircleCheck } from "lucide-react";
+import { CircleCheck, Flag } from "lucide-react";
 import { pricingTiers } from "@/lib/constants";
+import { scrollToId } from "@/lib/utils";
 
 export default function Pricing() {
-
   return (
     <div className="flex flex-col items-center w-full p-4 md:p-8 bg-black">
       {/* Title */}
       <div className="w-full max-w-5xl my-10 px-4 lg:px-0">
-        <h1 className="section-header">
-            AI Solutions
-        </h1>
-        <p className="section-description">
+        <h1 className="section-header">AI Solutions</h1>
+        <p className="section-description pb-6">
           Explore our versatile AI products designed to improve your business
           with innovative chatbots, voice assistants, and CRM integrations. No
           matter if you're just starting with AI or looking for advanced
@@ -49,8 +47,16 @@ export default function Pricing() {
                 </ul>
               </div>
               <div>
-                <button className="w-full py-2 bg-cyan-300 text-slate-900 font-semibold rounded-lg hover:bg-cyan-400 transition-colors duration-200">
+                <button
+                  type="button"
+                  onClick={() => scrollToId("contact")}
+                  className="w-full flex items-center justify-center gap-2 py-2 bg-cyan-300 text-slate-900 font-semibold rounded-lg hover:bg-cyan-400 transition-colors duration-200 cursor-pointer group"
+                >
                   {tier.buttonText}
+                  <Flag
+                    className="size-5 transition-transform duration-700 group-hover:rotate-360"
+                    strokeWidth={2}
+                  />
                 </button>
               </div>
             </div>

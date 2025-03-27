@@ -2,69 +2,89 @@ import { useEffect } from 'react';
 
 export default function useOrbsAnimation(canvasRef) {
   useEffect(() => {
-    // Get the canvas and its 2D rendering context
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
-
-    // Set canvas dimensions to match the window size
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Array to store orb objects
-    const orbs = [];
-    const orbCount = 10; // Number of orbs to create
+    const wallpaper = new Image();
+    wallpaper.src = '/images/hero-wallpaper.png';
 
-    // Create orbs with random properties
-    for (let i = 0; i < orbCount; i++) {
-      orbs.push({
-        x: Math.random() * canvas.width, // Random x position
-        y: Math.random() * canvas.height, // Random y position
-        radius: Math.random() * 80 + 40, // Random radius (40 to 120)
-        dx: (Math.random() - 0.5) * 2, // Random horizontal speed
-        dy: (Math.random() - 0.5) * 2, // Random vertical speed
-      });
-    }
+    wallpaper.onload = () => {
+      const orbs = [];
+      const orbCount = 0; // Slightly more orbs for better coverage
 
-    // Animation loop
-    const animate = () => {
-      // Clear the canvas and fill it with a semi-transparent black background
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < orbCount; i++) {
+        orbs.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 80 + 50, // Larger orbs (50-130px)
+          dx: (Math.random() - 0.5) * 3, // Faster movement
+          dy: (Math.random() - 0.5) * 3,
+        });
+      }
 
-      // Draw and update each orb
-      orbs.forEach((orb) => {
-        // Draw the orb
-        ctx.beginPath();
-        ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2); // Draw a circle
-        ctx.fillStyle = 'rgba(0, 255, 255, 0.3)'; // Set orb color (cyan with transparency)
-        ctx.fill();
-        ctx.closePath();
+      const animate = () => {
+        // Clear and draw the darkened background
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(wallpaper, 0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)'; // Darker overlay for contrast
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Update orb position
-        orb.x += orb.dx; // Move orb horizontally
-        orb.y += orb.dy; // Move orb vertically
+        orbs.forEach((orb) => {
+          // Reveal wallpaper through orb
+          ctx.save();
+          ctx.beginPath();
+          ctx.arc(orb.x, orb.y, orb.radius, 0, Math.PI * 2);
+          ctx.clip();
+          ctx.drawImage(wallpaper, 0, 0, canvas.width, canvas.height);
+          ctx.restore();
 
-        // Bounce orbs off the edges of the canvas
-        if (orb.x + orb.radius > canvas.width || orb.x - orb.radius < 0) orb.dx = -orb.dx;
-        if (orb.y + orb.radius > canvas.height || orb.y - orb.radius < 0) orb.dy = -orb.dy;
-      });
+          // Add glow effect
+          ctx.beginPath();
+          ctx.arc(orb.x, orb.y, orb.radius * 1.2, 0, Math.PI * 2); // Slightly larger glow
+          const gradient = ctx.createRadialGradient(
+            orb.x, orb.y, orb.radius * 0.6, // Tighter inner glow
+            orb.x, orb.y, orb.radius * 1.2
+          );
+          gradient.addColorStop(0, 'rgba(0, 255, 255, 0.4)'); // Brighter cyan
+          gradient.addColorStop(1, 'rgba(0, 255, 255, 0)');
+          ctx.fillStyle = gradient;
+          ctx.fill();
 
-      // Request the next animation frame
-      requestAnimationFrame(animate);
+          // Update position
+          orb.x += orb.dx;
+          orb.y += orb.dy;
+
+          // Bounce off edges
+          if (orb.x + orb.radius > canvas.width || orb.x - orb.radius < 0) orb.dx = -orb.dx;
+          if (orb.y + orb.radius > canvas.height || orb.y - orb.radius < 0) orb.dy = -orb.dy;
+        });
+
+        requestAnimationFrame(animate);
+      };
+
+      animate();
     };
 
-    // Start the animation loop
-    animate();
+    wallpaper.onerror = () => {
+      console.error('Failed to load wallpaper image. Please check the path.');
+    };
 
-    // Handle window resizing
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      // Redraw immediately on resize to avoid blank canvas
+      if (wallpaper.complete) {
+        ctx.drawImage(wallpaper, 0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.9)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
     };
     window.addEventListener('resize', resizeCanvas);
 
-    // Cleanup: Remove the resize event listener when the component unmounts
-    return () => window.removeEventListener('resize', resizeCanvas);
-  }, [canvasRef]); // Re-run the effect if the canvasRef changes
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+    };
+  }, [canvasRef]);
 }

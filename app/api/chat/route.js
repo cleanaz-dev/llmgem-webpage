@@ -7,20 +7,22 @@ const anthropic = new Anthropic(process.env.ANTHROPIC_API_KEY);
 export async function POST(req) {
   try {
     const { message } = await req.json();
+    console.log("message received: ", message);
 
     // 1. Precise intent detection with Haiku
     const { content } = await anthropic.messages.create({
       model: "claude-3-haiku-20240307",
-      max_tokens: 50,
+      max_tokens: 10, // Reduced to enforce brevity
       temperature: 0,
-      system: "Classify as BOOKING or CHAT only. Be strict.",
+      system: "You are a classifier. Analyze the user message and reply with EXACTLY 'BOOKING' or 'CHAT'. If the message mentions scheduling, a call, meeting, or booking, return 'BOOKING'. Otherwise, return 'CHAT'. No other text is allowed.",
       messages: [{
         role: "user",
-        content: `Is this a request to schedule a call/meeting? Reply ONLY "BOOKING" or "CHAT":\n\n${message}`
+        content: message // Directly pass the raw message
       }]
     });
 
     const intent = content[0].text.trim();
+    console.log("Detected intent:", intent); // Debug log
 
     // 2. Handle booking intent
     if (intent === "BOOKING") {
@@ -43,6 +45,7 @@ export async function POST(req) {
     });
 
   } catch (error) {
+    console.error("Error:", error);
     return NextResponse.json({
       type: "chat",
       response: "I couldn't process that. Would you like to schedule a call instead?"

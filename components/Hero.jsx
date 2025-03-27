@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import Nav from "./Nav"; // Adjust path as needed
 import useOrbsAnimation from "@/hooks/useOrbsAnimation";
 import { FaGem } from "react-icons/fa";
+import { scrollToId } from "@/lib/utils"; 
+
 
 export default function Hero() {
   const canvasRef = useRef(null);
@@ -40,7 +42,7 @@ export default function Hero() {
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
       {/* Background Canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-0 blur-md" />
+      <canvas ref={canvasRef} className="absolute inset-0 z-0 blur-xs" />
 
       {/* Intro: "LLM GEM" */}
       {showIntro && (
@@ -62,14 +64,20 @@ export default function Hero() {
           transition={{ duration: 1, ease: "easeOut" }}
         >
           <h1 className="text-[120px] md:text-[200px] font-bold tracking-wide bg-gradient-to-r from-slate-900/50 via-cyan-400/50 to-slate-900/50 bg-clip-text text-transparent relative">
-            LLM GEM
+            <span className="text-[40vw] md:text-[200px] leading-1 md:leading-0">LLM</span> <span className="text-[40vw] md:text-[200px] leading-1 md:leading-0">GEM</span>
           </h1>
 
           <div className="mt-8 flex gap-4 justify-center">
-            <button className="px-6 py-3 bg-teal-500 hover:bg-teal-600 text-white rounded-full transition">
+            <button
+              type="button" 
+              onClick={() => scrollToId("services")}
+              className="px-6 py-3 bg-teal-500/50 hover:bg-teal-600 text-white rounded-full cursor-pointer transition-all duration-500">
               Our Services
             </button>
-            <button className="px-6 py-3 bg-transparent border border-teal-500 text-teal-500 hover:bg-teal-500 hover:text-white rounded-full transition">
+            <button
+              type="button"
+              onClick={() => scrollToId("contact")} 
+              className="px-6 py-3 bg-transparent border border-teal-500 text-teal-500 hover:bg-teal-500/50 hover:text-white rounded-full cursor-pointer transition-all duration-500 hover:border-teal-500/10">
               Contact Us
             </button>
           </div>

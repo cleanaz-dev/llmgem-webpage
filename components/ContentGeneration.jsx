@@ -78,7 +78,7 @@ export default function ContentGeneration() {
           {/* Generate Button (Visible when idle) */}
           {generationState === "idle" && (
             <button
-              className="absolute bg-gray-800/60 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 py-1.5 text-white rounded-md shadow-md border border-cyan-400/50 transition-all duration-300 z-20 ease-in cursor-pointer text-xs md:text-base"
+              className="absolute bg-gray-800/60 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 px-4 py-1.5 text-white rounded-md shadow-md border border-cyan-400/50 transition-all duration-300 z-20 ease-in text-xs md:text-base"
             >
               <p className="font-light">Generate Image</p>
             </button>

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { qaData } from "@/lib/constants";
 
 export default function QA() {
   const [expandedIndices, setExpandedIndices] = useState([]);
@@ -13,44 +14,11 @@ export default function QA() {
     );
   };
 
-  // Q/A data
-  const qaData = [
-    {
-      question: "Is my company a good fit for LLM GEM?",
-      answer:
-        "LLM GEM is designed to benefit businesses of all sizes and industries. Whether you're a startup or an enterprise, our solutions can be tailored to meet your specific needs.",
-    },
-    {
-      question: "Are your solutions secure?",
-      answer:
-        "Yes, security is our top priority. We use industry-standard encryption and follow best practices to ensure your data is safe and secure.",
-    },
-    {
-      question: "Do you offer continuous support?",
-      answer:
-        "Absolutely! We provide 24/7 support to ensure your AI solutions run smoothly and efficiently.",
-    },
-    {
-      question: "How long does it take to implement a request?",
-      answer:
-        "Implementation time varies depending on the complexity of the request. However, most requests are completed within 2-4 weeks.",
-    },
-    {
-      question: "Can I customize the AI solutions?",
-      answer:
-        "Yes, our AI solutions are fully customizable to fit your business requirements and goals.",
-    },
-    {
-      question: "What industries do you specialize in?",
-      answer:
-        "We specialize in a wide range of industries, including healthcare, finance, retail, and more. Our solutions are adaptable to any industry.",
-    },
-  ];
+
 
   return (
-    <div className="flex flex-col items-center w-full p-4 md:p-10 bg-black">
+    <div className="flex flex-col items-center w-full p-4 md:p-10 bg-black ">
       
-     
       {/* Title and Tagline */}
       <div className="relative text-center mb-10">
         <h1 className="mb-8 text-6xl bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent">

@@ -5,28 +5,35 @@ import { motion } from "framer-motion";
 
 export default function ContactText() {
   const [currentTitleIndex, setCurrentTitleIndex] = useState(0);
+  const [startCycling, setStartCycling] = useState(false);
 
-  // Titles array
-  const titles = ["Let's talk!", "Got an idea?", "Connect Now!"];
+  const titles = ["Let's talk!", "Have an idea?", "Connect Now!"];
 
-  // Cycle through titles every 3 seconds
   useEffect(() => {
+    if (!startCycling) return;
+
     const interval = setInterval(() => {
       setCurrentTitleIndex((prevIndex) => (prevIndex + 1) % titles.length);
-    }, 3000); // Change every 3 seconds
-    return () => clearInterval(interval); // Cleanup on unmount
-  }, [titles.length]);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [startCycling, titles.length]);
 
   return (
-    <motion.h2
-      key={titles[currentTitleIndex]} // Key ensures animation triggers on text change
-      initial={{ opacity: 0, y: 20, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -20, scale: 0.9 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }} // Smooth transition
-      className="text-3xl md:text-5xl tracking-wide font-bold text-cyan-300 mb-4"
+    <motion.div
+      onViewportEnter={() => setStartCycling(true)}
+      viewport={{ once: true, margin: "0px 0px -100px 0px" }}
     >
-      {titles[currentTitleIndex]}
-    </motion.h2>
+      <motion.h2
+        key={titles[currentTitleIndex]}
+        initial={{ opacity: 0, y: 20, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: -20, scale: 0.9 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="text-3xl md:text-5xl tracking-wide font-bold text-cyan-300 mb-4"
+      >
+        {titles[currentTitleIndex]}
+      </motion.h2>
+    </motion.div>
   );
 }

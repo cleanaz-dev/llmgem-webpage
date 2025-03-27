@@ -7,7 +7,7 @@ export default function Analyze() {
   return (
     <div className="base-container lg:h-[470px]">
       {/* Logos Container */}
-      <div className="flex border border-slate-900 rounded-lg px-6 py-3 items-center justify-between relative w-full max-w-2xl cursor-pointer group overflow-visible">
+      <div className="flex border border-slate-900 rounded-lg px-6 py-3 items-center justify-between relative w-full max-w-2xl group overflow-visible">
         {/* Top Masking Effect */}
         <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-[rgba(10,10,20,0.95)] to-transparent pointer-events-none rounded-lg opacity-100 group-hover:opacity-0 transition-opacity duration-1000 z-10" />
 

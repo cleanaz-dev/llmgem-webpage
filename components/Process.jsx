@@ -10,7 +10,7 @@ export default function Process() {
       {/* Process Title */}
       <div className="flex flex-col max-w-[1500px] mx-auto justify-center items-center pt-12">
         <h1 className="section-header text-center w-full">The process</h1>
-        <p className="section-description">
+        <p className="section-description px-10">
         We analyze, build, and refine — transforming your business with AI solutions that drive efficiency, security, and growth.
         </p>
       </div>
