@@ -181,7 +181,9 @@ export default function ChatUI2({
             onSubmit={handleBookingSubmit}
             userInfo={userInfo}
             isBookingConfirmed={isBookingConfirmed}
-            isBookingLoading={isBookingLoading} // Pass loading state
+            isBookingLoading={isBookingLoading}
+            chatEndRef={chatEndRef}
+            
           />
         )}
       </motion.div>

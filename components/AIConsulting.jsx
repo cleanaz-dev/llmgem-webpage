@@ -100,18 +100,18 @@ export default function AIConsulting() {
               isChartHovered ? "translate-x-24 -translate-y-1" : ""
             }`}
           >
-            <button className="px-4 py-1 border-white/20 border rounded-md bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent shadow-[0_0_3px_#00FFFF] ">
-              <span className="text-sm">Efficiency +</span>
+            <button className="px-4 py-1 border-white/20 border rounded-md  bg-black shadow-[0_0_3px_#00FFFF] ">
+              <span className="text-sm bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent">Efficiency +</span>
             </button>
           </div>
           {/* Cost Reduction Button */}
           <div
             className={`absolute bottom-4 right-4 pointer-events-auto transition-transform duration-500 ease-in-out ${
-              isChartHovered ? "-translate-x-24 -translate-y-6" : ""
+              isChartHovered ? "-translate-x-20 -translate-y-6" : ""
             }`}
           >
-            <button className="px-4 py-1 border-white/20 border rounded-md  bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent shadow-[0_0_3px_#00FFFF] ">
-              <span className="text-sm">Cost Reduction +</span>
+            <button className="px-4 py-1 border-white/20 border rounded-md  bg-black shadow-[0_0_3px_#00FFFF] ">
+              <span className="text-sm bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent">Cost Reduction +</span>
             </button>
           </div>
         </div>

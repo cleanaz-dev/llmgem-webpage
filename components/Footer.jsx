@@ -59,7 +59,7 @@ export default function Footer() {
                   />
                 )}
               </div>
-              <div className="p-4 border-t border-cyan-500/10 flex justify-end">
+              <div className="p-2 border-t border-cyan-500/10 flex justify-end bg-slate-800">
                 <button
                   onClick={() => setOpenModal(null)}
                   className="px-4 py-2 text-cyan-300 hover:bg-cyan-500/10 rounded cursor-pointer"

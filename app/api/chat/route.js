@@ -1,6 +1,7 @@
 // app/api/chat/route.js
 import Anthropic from "@anthropic-ai/sdk";
 import { NextResponse } from "next/server";
+import { companyKnowledgeText } from "@/lib/constants";
 
 const anthropic = new Anthropic(process.env.ANTHROPIC_API_KEY);
 
@@ -32,10 +33,19 @@ export async function POST(req) {
     // 3. Generate chat response
     const response = await anthropic.messages.create({
       model: "claude-3-haiku-20240307",
-      max_tokens: 300,
+      max_tokens: 150, // Reduced from 300 to limit response length
+      temperature: 0.7, // Adds slight variability while staying focused
+      system: `You are an LLM GEM assistant. Respond to inquiries using ONLY the following knowledge:
+      ${companyKnowledgeText}
+      
+      Response Rules:
+      1. STRICT 1-2 sentence limit
+      2. Be extremely concise
+      3. For complex questions, say: "Let's schedule a call to discuss this in detail."
+      4. Never make up information`,
       messages: [{
         role: "user",
-        content: `Respond concisely, 1 or 2 sentences max, to this message:\n\n${message}`
+        content: message
       }]
     });
 

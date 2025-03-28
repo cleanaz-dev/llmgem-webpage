@@ -62,7 +62,7 @@ export default function Web3Service() {
   };
 
   return (
-    <div className="w-full h-[500px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-4 md:px-8">
+    <div className="w-full min-h-[550px] border border-[rgba(0,255,255,0.1)]  rounded-lg bg-[rgba(10,10,20,0.9)] flex flex-col overflow-hidden px-4 md:px-8">
       {/* Top: Crypto Icons with Full Masking */}
       <div className="relative w-full h-12 overflow-hidden mt-6 ">
         {/* Masks (Top, Bottom, Left, Right) */}
@@ -130,7 +130,7 @@ export default function Web3Service() {
                           : "bg-[rgba(20,20,40,0.9)] text-slate-300 opacity-50"
                       }`}
                     >
-                      <crypto.icon className={`${crypto.color} text-4xl`} />
+                      <crypto.icon className={`${crypto.color} text-lg md:text-2xl lg:text-4xl`} />
                     </div>
                   ))}
                 </motion.div>

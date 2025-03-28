@@ -8,9 +8,9 @@ export async function POST(request) {
   const data = await request.json();
   console.log("data:", data);
 
-  if (!data || !data.start_time || !data.email || !data.name || !data.service) {
+  if (!data || !data.start_time || !data.end_time || !data.email || !data.name || !data.service) {
     return NextResponse.json(
-      { error: 'Missing required fields: start_time, email, name, or service' },
+      { error: 'Missing required fields: start_time, end_time, email, name, or service' },
       { status: 400 }
     );
   }
@@ -27,6 +27,11 @@ export async function POST(request) {
     });
     console.log("Zoom meeting created:", zoomMeeting);
 
+    // Calculate duration in minutes
+    const startTime = new Date(data.start_time);
+    const endTime = new Date(data.end_time);
+    const duration = Math.round((endTime - startTime) / (1000 * 60)); // Duration in minutes
+
     // Send the email using Resend
     await sendBookingEmail({
       email: data.email,
@@ -34,6 +39,7 @@ export async function POST(request) {
       service: data.service,
       start_time: data.start_time,
       join_url: zoomMeeting.join_url,
+      duration: duration, // Pass duration to the email function
     });
 
     const response = {

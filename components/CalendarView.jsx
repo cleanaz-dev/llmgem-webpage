@@ -1,6 +1,6 @@
 "use client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function CalendarView({
   currentDate,
@@ -8,19 +8,36 @@ export default function CalendarView({
   onDateSelect,
   selectedDate,
   availableDates,
+  chatEndRef,
 }) {
   const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [isLoading] = useState(false);
   const [error] = useState(null);
 
+  // Calculate start of week (Sunday)
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+  startOfWeek.setHours(0, 0, 0, 0); // Normalize time to midnight
 
   const weekDays = Array.from({ length: 7 }).map((_, i) => {
     const date = new Date(startOfWeek);
     date.setDate(date.getDate() + i);
     return date;
   });
+
+
+    // Add this effect to scroll when selectedDate changes
+    useEffect(() => {
+      if (selectedDate && chatEndRef?.current) {
+        chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, [selectedDate, chatEndRef]);
+
+
+  // Helper function to normalize date comparison
+  const normalizeDateString = (date) => {
+    return date.toISOString().split('T')[0];
+  };
 
   if (error) {
     return (
@@ -78,11 +95,11 @@ export default function CalendarView({
         ))}
 
         {weekDays.map((date, i) => {
-          const dateString = date.toISOString().split("T")[0]; // Match BookingForm's format
-          const isAvailable = availableDates.includes(dateString);
-          const isSelected = selectedDate?.toISOString().split("T")[0] === dateString;
-
-          console.log(`Date: ${dateString}, Available: ${isAvailable}`); // Debug each day
+          const dateString = normalizeDateString(date);
+          const isAvailable = availableDates.some(availDate => 
+            availDate.startsWith(dateString)
+          );
+          const isSelected = selectedDate && normalizeDateString(selectedDate) === dateString;
 
           return (
             <button

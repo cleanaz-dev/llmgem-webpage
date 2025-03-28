@@ -7,7 +7,8 @@ export default function BookingForm({
   userInfo,
   onSubmit,
   isBookingConfirmed,
-  isBookingLoading
+  isBookingLoading,
+  chatEndRef,
 }) {
   // Added prop
   const [service, setService] = useState("");
@@ -64,6 +65,7 @@ export default function BookingForm({
 
     fetchAvailability();
   }, [service, locationId]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -133,6 +135,8 @@ export default function BookingForm({
           onDateChange={handleWeekChange}
           onDateSelect={handleDateSelect}
           selectedDate={selectedDate}
+          chatEndRef={chatEndRef}
+         
         />
       )}
 

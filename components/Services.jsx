@@ -12,7 +12,7 @@ export default function Services() {
     <section className="w-full bg-black text-white">
       <div className="relative text-center">
         {/* Foreground Content */}
-        <div className="relative w-full h-[70vh] min-h-[500px] flex items-center justify-center overflow-visible">
+        <div className="relative w-full h-[50vh] min-h-[500px] flex items-center justify-center overflow-visible">
           {/* Split Text Container */}
           <div className="flex flex-col md:flex-row items-center justify-center gap-0 md:gap-4">
             <span className="text-[40vw] md:text-[20vw] font-bold bg-gradient-to-b from-slate-700/10 via-cyan-400/10 to-slate-700/10 bg-clip-text text-transparent tracking-tight leading-[0.8]">
@@ -42,12 +42,12 @@ export default function Services() {
         </p>
       </div>
       <div className="space-y-8">
-        <div className="mx-auto lg:max-w-[1500px] px-4 md:px-10 lg:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="mx-auto lg:max-w-[1500px] px-4 md:px-10 lg:px-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
           <ChatDevelopment />
           <ContentGeneration />
         </div>
 
-        <div className="mx-auto lg:max-w-[1500px] px-4 md:px-10 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="mx-auto lg:max-w-[1500px] px-4 md:px-10 lg:px-6 grid grid-cols-1 lg:grid-cols-3 gap-4">
           <WorkflowAutomations />
           <AIConsulting />
           <Web3Service />
