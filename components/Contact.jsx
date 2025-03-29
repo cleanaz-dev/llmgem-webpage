@@ -1,24 +1,41 @@
 "use client";
-
+import { motion } from "framer-motion"; // Import motion
 import { Mail, Phone } from "lucide-react";
 import { useState } from "react";
-import ChatUI2 from "./ChatUI2"; // Import the new ChatUI component
-import ContactText from "./ContactText"; // Import the new ContactText component
+import ChatUI2 from "./ChatUI2";
+import ContactText from "./ContactText";
 
 export default function Contact() {
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
   const [isUserInfoSubmitted, setIsUserInfoSubmitted] = useState(false);
 
+  // Animation variants
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="w-full bg-black p-4 lg:p-8">
-      {/* Centered Container */}
       <div className="max-w-4xl mx-auto">
-        {/* Two-Column Layout */}
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Left Side: Contact Information */}
-          <div className="flex flex-col justify-around md:w-1/2">
+          {/* Animated Left Side */}
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-200px" }}
+            variants={fadeInLeft}
+            className="flex flex-col justify-around md:w-1/2"
+          >
             <div>
-              <ContactText /> {/* Use the new component here */}
+              <ContactText />
             </div>
             <div className="space-y-4">
               <p className="text-slate-300 flex items-center gap-2">
@@ -42,9 +59,9 @@ export default function Contact() {
                 </a>
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Right Side: Chat UI */}
+          {/* Static Right Side */}
           <div className="md:w-1/2">
             <ChatUI2
               userInfo={userInfo}

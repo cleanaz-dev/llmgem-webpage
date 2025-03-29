@@ -176,6 +176,9 @@
 .service-title {
   @apply text-3xl bg-gradient-to-r from-slate-400 to-cyan-300 bg-clip-text text-transparent leading-snug
 }
+.service-main-text {
+  @apply text-[40vw] md:text-[20vw] font-bold bg-gradient-to-b from-slate-700/10 via-cyan-400/10 to-slate-700/10 bg-clip-text text-transparent tracking-tight leading-[0.8]
+}
 
 .service-description {
   @apply mt-2 text-slate-500 text-sm md:text-base

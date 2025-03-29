@@ -3,12 +3,27 @@
 import { CircleCheck, Flag } from "lucide-react";
 import { pricingTiers } from "@/lib/constants";
 import { scrollToId } from "@/lib/utils";
+import { motion } from "framer-motion";
+
+const letterVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, ease: "easeOut" }
+  }
+};
+
 
 export default function Pricing() {
   return (
     <div className="flex flex-col items-center w-full p-4 md:p-8 bg-black">
       {/* Title */}
-      <div className="w-full max-w-5xl my-10 px-4 lg:px-0">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-20%" }}
+        variants={letterVariants} className="w-full max-w-5xl my-10 px-4 lg:px-0">
         <h1 className="section-header">AI Solutions</h1>
         <p className="section-description pb-6">
           Explore our versatile AI products designed to improve your business
@@ -16,7 +31,7 @@ export default function Pricing() {
           matter if you're just starting with AI or looking for advanced
           solutions, we supply strategies customized to your goals and budget.
         </p>
-      </div>
+      </motion.div>
 
       {/* Pricing Tiers */}
       <div className="w-full max-w-5xl md:px-4 lg:px-0">

@@ -8,7 +8,7 @@ import QA from "@/components/QA";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
-// Animation variants
+// Hero animation only
 const heroVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -21,54 +21,6 @@ const heroVariants = {
   },
 };
 
-const servicesVariants = {
-  hidden: { opacity: 0, x: -100 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 1.2,
-      ease: "easeOut",
-    },
-  },
-};
-
-const processVariants = {
-  hidden: { opacity: 0, x: 100 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 1.2,
-      ease: "easeOut",
-    },
-  },
-};
-
-const pricingVariants = {
-  hidden: { opacity: 0, y: 100 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 1.2,
-      ease: "easeOut",
-    },
-  },
-};
-
-const contactVariants = {
-  hidden: { opacity: 0, x: 100 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 1.2,
-      ease: "easeOut",
-    },
-  },
-};
-
 export default function Home() {
   return (
     <div className="h-screen overflow-hidden overflow-y-auto custom-scrollbar">
@@ -77,65 +29,29 @@ export default function Home() {
           <Hero />
         </motion.div>
 
-        <motion.div
-          id="services"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-          variants={servicesVariants}
-        >
+        <div id="services">
           <Services />
-        </motion.div>
+        </div>
 
-        <motion.div
-          id="process"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-          variants={processVariants}
-        >
+        <div id="process">
           <Process />
-        </motion.div>
+        </div>
 
-        <motion.div
-          id="pricing"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-          variants={pricingVariants}
-        >
+        <div id="pricing">
           <Pricing />
-        </motion.div>
+        </div>
 
-        <motion.div
-          id="faq"
-          className="scroll-mt-10"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-          variants={pricingVariants}
-        >
+        <div id="faq" className="scroll-mt-10">
           <QA />
-        </motion.div>
+        </div>
 
-        <motion.div
-          id="contact"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
-          variants={contactVariants}
-        >
+        <div id="contact">
           <Contact />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-        >
+        <div>
           <Footer />
-        </motion.div>
+        </div>
       </main>
     </div>
   );
