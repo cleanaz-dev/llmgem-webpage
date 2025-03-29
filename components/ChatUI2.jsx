@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send } from "lucide-react";
+import { Input } from "@/components/ui/input"; 
 import BookingForm from "./BookingForm";
 
 export default function ChatUI2({
@@ -11,7 +12,7 @@ export default function ChatUI2({
   isUserInfoSubmitted,
   onUserInfoSubmit,
 }) {
-  // State and refs
+  // State and refs (unchanged)
   const [messages, setMessages] = useState([
     { text: "Hey there! How can I assist you today?", isBot: true },
   ]);
@@ -22,7 +23,7 @@ export default function ChatUI2({
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   const chatEndRef = useRef(null);
 
-  // Predefined quick actions
+  // Predefined quick actions (unchanged)
   const predefinedMessages = [
     {
       text: "Book a Call",
@@ -39,19 +40,18 @@ export default function ChatUI2({
     },
   ];
 
-  // Auto-scroll to bottom when messages change
+  // Effects (unchanged)
   useEffect(() => {
     if (messages.length > 1) {
       chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
-  // Sync user info
   useEffect(() => {
     setLocalUserInfo(userInfo);
   }, [userInfo]);
 
-  // Core message functions
+  // Core message functions (unchanged)
   const addMessage = (content, isBot = false) => {
     setMessages((prev) => [
       ...prev,
@@ -106,8 +106,9 @@ export default function ChatUI2({
     endTime,
     { locationId, resourceId, serviceId }
   ) => {
+    // Booking submit logic (unchanged)
     try {
-      setIsBookingLoading(true); // Set loading state
+      setIsBookingLoading(true);
       if (!startTime) {
         throw new Error("No time slot selected");
       }
@@ -146,7 +147,7 @@ export default function ChatUI2({
         isBot: true,
       });
     } finally {
-      setIsBookingLoading(false); // Reset loading state
+      setIsBookingLoading(false);
     }
   };
 
@@ -183,7 +184,6 @@ export default function ChatUI2({
             isBookingConfirmed={isBookingConfirmed}
             isBookingLoading={isBookingLoading}
             chatEndRef={chatEndRef}
-            
           />
         )}
       </motion.div>
@@ -201,13 +201,13 @@ export default function ChatUI2({
 
   return (
     <div className="bg-[rgba(10,10,20,0.95)] border border-cyan-500/20 rounded-xl h-[550px] md:h-[650px] flex flex-col shadow-[0_0_20px_rgba(6,182,212,0.2)]">
-      {/* Header */}
+      {/* Header (unchanged) */}
       <div className="p-4 border-b border-slate-800 flex items-center justify-between">
         <span className="text-cyan-300 font-semibold">Chat Assistant</span>
         <span className="text-xs text-slate-500">Powered by LLM GEM</span>
       </div>
 
-      {/* Messages */}
+      {/* Messages (unchanged) */}
       <ScrollArea className="flex-1 h-96 overflow-y-auto">
         <div className="p-2 md:p-4 space-y-4">
           {messages.map(renderMessage)}
@@ -225,36 +225,36 @@ export default function ChatUI2({
         </div>
       </ScrollArea>
 
-      {/* Footer */}
+      {/* Footer with Shadcn components */}
       {!isUserInfoSubmitted ? (
         <form
           onSubmit={handleUserInfoSubmit}
           className="p-4 border-t border-slate-800"
         >
           <div className="space-y-4">
-            <input
+            <Input
               type="text"
               value={localUserInfo.name}
               onChange={(e) =>
                 setLocalUserInfo({ ...localUserInfo, name: e.target.value })
               }
-              className="w-full p-2 bg-[rgba(20,20,40,0.9)] border border-cyan-500/20 rounded-lg text-slate-300 focus:border-cyan-300 focus:outline-none placeholder:text-slate-500"
+              className="w-full bg-[rgba(20,20,40,0.9)] text-slate-300 placeholder:text-slate-500 border-cyan-500/20 focus:border-cyan-300"
               placeholder="Your Name"
               required
             />
-            <input
+            <Input
               type="email"
               value={localUserInfo.email}
               onChange={(e) =>
                 setLocalUserInfo({ ...localUserInfo, email: e.target.value })
               }
-              className="w-full p-2 bg-[rgba(20,20,40,0.9)] border border-cyan-500/20 rounded-lg text-slate-300 focus:border-cyan-300 focus:outline-none placeholder:text-slate-500"
+              className="w-full bg-[rgba(20,20,40,0.9)] text-slate-300 placeholder:text-slate-500 border-cyan-500/20 focus:border-cyan-300"
               placeholder="Your Email"
               required
             />
             <button
               type="submit"
-              className="w-full p-2 text-cyan-300 bg-[rgba(20,20,40,0.9)] border border-cyan-500/20 rounded-lg hover:bg-cyan-500/20 transition-colors"
+              className="w-full bg-[rgba(20,20,40,0.9)] text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20"
             >
               Start Chat
             </button>
@@ -265,27 +265,28 @@ export default function ChatUI2({
           <div className="p-4 border-t border-slate-800 flex gap-2">
             {predefinedMessages.map((msg, i) => (
               <button
-                key={i}
-                onClick={msg.action}
-                className="px-3 py-1 text-sm text-cyan-300 bg-[rgba(20,20,40,0.9)] rounded-full hover:bg-cyan-500/20 transition-colors"
-              >
-                {msg.text}
-              </button>
+              key={i}
+              onClick={msg.action}
+              className="px-3 py-1 text-sm text-cyan-300 bg-[rgba(20,20,40,0.9)] rounded-full hover:bg-cyan-500/20 transition-colors cursor-pointer"
+            >
+              {msg.text}
+            </button>
             ))}
           </div>
           <form onSubmit={handleSend} className="p-4 border-t border-slate-800">
             <div className="flex items-center gap-2">
-              <input
+              <Input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="flex-1 p-2 bg-[rgba(20,20,40,0.9)] border border-cyan-500/20 rounded-lg text-slate-300 focus:border-cyan-300 focus:outline-none placeholder:text-slate-500"
+                className="flex-1 bg-[rgba(20,20,40,0.9)] text-slate-300 placeholder:text-slate-500 border-cyan-500/20 focus:border-cyan-300"
                 placeholder="Type your message..."
                 required
               />
               <button
                 type="submit"
-                className="p-2 text-cyan-300 hover:text-cyan-400 transition-colors"
+                variant="ghost"
+                className="text-cyan-300 hover:text-cyan-400"
               >
                 <Send size={20} />
               </button>
