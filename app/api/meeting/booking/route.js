@@ -17,7 +17,7 @@ export async function POST(request) {
 
   try {
     const booking = await createBooking(data);
-    console.log("Booking created:", booking);
+
 
     const zoomMeeting = await createZoomMeeting({
       start_time: data.start_time,
@@ -25,7 +25,7 @@ export async function POST(request) {
       name: data.name,
       email: data.email,
     });
-    console.log("Zoom meeting created:", zoomMeeting);
+
 
     // Calculate duration in minutes
     const startTime = new Date(data.start_time);

@@ -45,7 +45,7 @@ export default function Footer() {
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
-              className="bg-slate-50 rounded-lg border border-cyan-500/20 max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+              className="bg-slate-50 rounded-sm border border-cyan-900 max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="overflow-y-auto p-6 custom-scrollbar">
@@ -59,7 +59,7 @@ export default function Footer() {
                   />
                 )}
               </div>
-              <div className="p-2 border-t border-cyan-500/10 flex justify-end bg-slate-800">
+              <div className="p-2 flex justify-end bg-slate-800">
                 <button
                   onClick={() => setOpenModal(null)}
                   className="px-4 py-2 text-cyan-300 hover:bg-cyan-500/10 rounded cursor-pointer"

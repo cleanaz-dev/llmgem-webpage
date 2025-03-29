@@ -42,7 +42,7 @@ export default function Hero() {
   return (
     <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden bg-black">
       {/* Background Canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 z-0 blur-xs" />
+      <canvas ref={canvasRef} className="absolute inset-0 z-0 " />
 
       {/* Intro: "LLM GEM" */}
       {showIntro && (

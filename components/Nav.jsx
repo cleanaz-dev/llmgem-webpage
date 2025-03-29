@@ -62,7 +62,7 @@ export default function Nav() {
           className="flex items-center text-2xl font-bold gap-2 cursor-pointer group"
           onClick={() => scrollToSection("home")}
         >
-          <FaGem className="fill-cyan-400 size-5 mt-0.5 shimmer group-hover:scale-125 transition-all duration-500" stroke={1} />
+          <FaGem className="fill-cyan-300 size-5 mt-0.5 shimmer group-hover:scale-125 transition-all duration-500" stroke={1} />
           <span className="text-base md:text-2xl">LLM GEM</span>
         </button>
 
@@ -87,9 +87,7 @@ export default function Nav() {
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <motion.button 
-              className="sm:hidden text-teal-500 focus:outline-none"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="sm:hidden text-cyan-500 focus:outline-none hover:scale-125 transition-all duration-300"
             >
               <Menu className="h-6 w-6 cursor-pointer" />
             </motion.button>
@@ -118,9 +116,8 @@ export default function Nav() {
                       <motion.button
                         variants={itemVariants}
                         onClick={() => scrollToSection(id)}
-                        className="flex flex-col mx-auto text-center text-lg tracking-wide text-teal-500 hover:text-white hover:tracking-widest  cursor-pointer transition-all duration-500"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        className="flex flex-col mx-auto text-center text-lg tracking-wide text-teal-500 hover:text-white hover:tracking-widest  hover:scale-115 cursor-pointer transition-all duration-500"
+                       
                       >
                         {item}
                       </motion.button>
