@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
+    console.log("searchParams: ", searchParams);
     const from = searchParams.get("from");
     const to = searchParams.get("to");
     const locationId = searchParams.get("locationId");
@@ -16,20 +17,8 @@ export async function GET(request) {
       );
     }
 
-    // Convert ISO dates to Hapio's expected format
-    const formatForHapio = (dateStr) => {
-      const date = new Date(dateStr);
-      return date.toISOString()
-        .replace(/\.\d{3}Z$/, '') // Remove milliseconds
-        .replace('Z', '+00:00');   // Replace Z with +00:00
-    };
 
-    const hapioFrom = formatForHapio(from);
-    const hapioTo = formatForHapio(to);
-
-    console.log("Sending to Hapio:", { hapioFrom, hapioTo }); // Debug log
-
-    const availability = await getAvailability(hapioFrom, hapioTo, locationId);
+    const availability = await getAvailability(from, to, locationId);
     return NextResponse.json(availability);
   } catch (error) {
     console.error("API Route Error:", error);

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import CalendarView from "./CalendarView";
 import { BarLoader } from "react-spinners";
+import { formatISO, subDays, addDays } from "date-fns";
 
 export default function BookingForm({
   userInfo,
@@ -30,16 +31,20 @@ export default function BookingForm({
     if (!service) return;
 
     const fetchAvailability = async () => {
-      const from = new Date(currentDate);
-      from.setDate(from.getDate() - 15); // 15 days back
-      const to = new Date(currentDate);
-      to.setDate(to.getDate() + 15); // 15 days forward
+      // Use date-fns to calculate the date range
+      const from = subDays(currentDate, 15); // 15 days back
+      const to = addDays(currentDate, 15);   // 15 days forward
 
+      // Format dates for Hapio API (Y-m-d\TH:i:sP)
+      const hapioFrom = formatISO(from, { representation: "complete" });
+      const hapioTo = formatISO(to, { representation: "complete" });
+
+      // Check if the range is already fetched
       if (
         fetchedRange.from &&
         fetchedRange.to &&
-        from >= new Date(fetchedRange.from) &&
-        to <= new Date(fetchedRange.to)
+        new Date(from) >= new Date(fetchedRange.from) &&
+        new Date(to) <= new Date(fetchedRange.to)
       ) {
         console.log("Range already fetched, skipping API call");
         setLoading(false);
@@ -49,13 +54,13 @@ export default function BookingForm({
       setLoading(true);
       try {
         const res = await fetch(
-          `/api/meeting/availability?from=${from.toISOString()}&to=${to.toISOString()}&locationId=${locationId}`
+          `/api/meeting/availability?from=${hapioFrom}&to=${hapioTo}&locationId=${locationId}`
         );
         if (!res.ok) throw new Error("Failed to fetch availability");
         const slots = await res.json();
         console.log("Fetched slots:", slots);
         setAvailableSlots(slots);
-        setFetchedRange({ from: from.toISOString(), to: to.toISOString() });
+        setFetchedRange({ from: hapioFrom, to: hapioTo });
       } catch (error) {
         console.error("Failed to fetch availability:", error);
       } finally {
@@ -64,7 +69,7 @@ export default function BookingForm({
     };
 
     fetchAvailability();
-  }, [service, locationId]);
+  }, [service, locationId, currentDate]);
 
 
   const handleSubmit = (e) => {
@@ -96,7 +101,7 @@ export default function BookingForm({
       )
     : [];
 
-  console.log("Available dates passed to CalendarView:", availableDates);
+  // console.log("Available dates passed to CalendarView:", availableDates);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
