@@ -254,7 +254,7 @@ export default function ChatUI2({
             />
             <button
               type="submit"
-              className="w-full bg-[rgba(20,20,40,0.9)] text-cyan-300 border border-cyan-500/20 hover:bg-cyan-500/20"
+              className="w-full p-2 text-cyan-300 bg-[rgba(20,20,40,0.9)] border border-cyan-500/20 rounded-lg hover:bg-cyan-500/20 transition-colors cursor-pointer"
             >
               Start Chat
             </button>
@@ -283,10 +283,9 @@ export default function ChatUI2({
                 placeholder="Type your message..."
                 required
               />
-              <button
+             <button
                 type="submit"
-                variant="ghost"
-                className="text-cyan-300 hover:text-cyan-400"
+                className="p-2 text-cyan-300 hover:text-cyan-400 transition-colors cursor-pointer"
               >
                 <Send size={20} />
               </button>

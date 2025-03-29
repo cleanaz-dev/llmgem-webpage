@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
+    console.log("serchParams: ", searchParams);
     const from = searchParams.get("from");
     const to = searchParams.get("to");
     const locationId = searchParams.get("locationId");
