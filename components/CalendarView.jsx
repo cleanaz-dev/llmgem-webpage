@@ -17,7 +17,7 @@ export default function CalendarView({
   // Calculate start of week (Sunday)
   const startOfWeek = new Date(currentDate);
   startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-  startOfWeek.setHours(0, 0, 0, 0); // Normalize time to midnight
+  startOfWeek.setHours(0, 0, 0, 0);
 
   const weekDays = Array.from({ length: 7 }).map((_, i) => {
     const date = new Date(startOfWeek);
@@ -25,25 +25,26 @@ export default function CalendarView({
     return date;
   });
 
-
-    // Add this effect to scroll when selectedDate changes
-    useEffect(() => {
-      if (selectedDate && chatEndRef?.current) {
-        chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, [selectedDate, chatEndRef]);
-
+  // Add this effect to scroll when selectedDate changes
+  useEffect(() => {
+    if (selectedDate && chatEndRef?.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [selectedDate, chatEndRef]);
 
   // Helper function to normalize date comparison
   const normalizeDateString = (date) => {
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
   if (error) {
     return (
       <div className="text-center py-4 text-red-400">
         {error} -{" "}
-        <button onClick={() => window.location.reload()} className="text-cyan-300">
+        <button
+          onClick={() => window.location.reload()}
+          className="text-cyan-300"
+        >
           Retry
         </button>
       </div>
@@ -64,7 +65,7 @@ export default function CalendarView({
         <button
           type="button"
           onClick={() => onDateChange(-7)}
-          className="p-1 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10 cursor-pointer"
+          className="p-0.5 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10 cursor-pointer"
           disabled={isLoading}
         >
           <ChevronLeft size={18} />
@@ -96,10 +97,11 @@ export default function CalendarView({
 
         {weekDays.map((date, i) => {
           const dateString = normalizeDateString(date);
-          const isAvailable = availableDates.some(availDate => 
+          const isAvailable = availableDates.some((availDate) =>
             availDate.startsWith(dateString)
           );
-          const isSelected = selectedDate && normalizeDateString(selectedDate) === dateString;
+          const isSelected =
+            selectedDate && normalizeDateString(selectedDate) === dateString;
 
           return (
             <button
@@ -109,7 +111,11 @@ export default function CalendarView({
               onClick={() => isAvailable && onDateSelect(date)}
               className={`h-8 rounded-full text-sm flex items-center justify-center transition-colors cursor-pointer
                 ${isSelected ? "bg-cyan-500 text-white" : ""}
-                ${isAvailable ? "text-cyan-300 hover:bg-cyan-500/20" : "text-slate-500 cursor-default"}`}
+                ${
+                  isAvailable
+                    ? "text-cyan-300 hover:bg-cyan-500/10"
+                    : "text-slate-500 cursor-default"
+                }`}
             >
               {date.getDate()}
             </button>
