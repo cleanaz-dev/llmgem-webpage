@@ -64,7 +64,7 @@ export default function CalendarView({
         <button
           type="button"
           onClick={() => onDateChange(-7)}
-          className="p-1 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10"
+          className="p-1 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10 cursor-pointer"
           disabled={isLoading}
         >
           <ChevronLeft size={18} />
@@ -80,7 +80,7 @@ export default function CalendarView({
         <button
           type="button"
           onClick={() => onDateChange(7)}
-          className="p-1 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10"
+          className="p-1 text-cyan-300 hover:text-cyan-400 rounded-full hover:bg-cyan-500/10 cursor-pointer"
           disabled={isLoading}
         >
           <ChevronRight size={18} />
@@ -107,7 +107,7 @@ export default function CalendarView({
               type="button"
               disabled={!isAvailable || isLoading}
               onClick={() => isAvailable && onDateSelect(date)}
-              className={`h-8 rounded-full text-sm flex items-center justify-center transition-colors
+              className={`h-8 rounded-full text-sm flex items-center justify-center transition-colors cursor-pointer
                 ${isSelected ? "bg-cyan-500 text-white" : ""}
                 ${isAvailable ? "text-cyan-300 hover:bg-cyan-500/20" : "text-slate-500 cursor-default"}`}
             >

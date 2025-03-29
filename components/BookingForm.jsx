@@ -111,7 +111,7 @@ export default function BookingForm({
             setSelectedDate(null);
             setSelectedSlot(null);
           }}
-          className="w-full p-2 bg-[rgba(30,30,50,0.9)] rounded border border-cyan-500/20 text-slate-300"
+          className="w-full p-2 bg-[rgba(30,30,50,0.9)] rounded border border-cyan-500/20 text-slate-300 cursor-pointer"
           required
           disabled={isBookingConfirmed} // Disable if confirmed
         >
@@ -169,7 +169,7 @@ export default function BookingForm({
                   key={index}
                   type="button"
                   onClick={() => setSelectedSlot(slot)}
-                  className={`p-2 rounded text-sm ${
+                  className={`p-2 rounded text-sm cursor-pointer ${
                     selectedSlot?.starts_at === slot.starts_at
                       ? "bg-cyan-500 text-white"
                       : "bg-[rgba(30,30,50,0.9)] hover:bg-cyan-500/20"
@@ -187,7 +187,7 @@ export default function BookingForm({
 <button
         type="submit"
         disabled={!selectedSlot || isBookingConfirmed || isBookingLoading}
-        className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
       >
         {isBookingLoading ? (
           <>
