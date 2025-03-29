@@ -39,7 +39,7 @@ export default function Pricing() {
           {pricingTiers.map((tier, index) => (
             <div
               key={index}
-              className="border border-slate-900 rounded-lg p-6 bg-[rgba(10,10,20,0.8)] flex flex-col justify-between h-full hover:border-cyan-400 hover:scale-105 transition-all duration-700"
+              className="border border-slate-900 rounded-lg p-6 bg-[rgba(10,10,20,0.8)] flex flex-col justify-between h-full hover:border-cyan-400 hover:scale-105 transition-all duration-700 group"
             >
               <div>
                 <h2 className="text-lg font-light text-cyan-300 mb-4">
@@ -65,7 +65,7 @@ export default function Pricing() {
                 <button
                   type="button"
                   onClick={() => scrollToId("contact")}
-                  className="w-full flex items-center justify-center gap-2 py-2 bg-cyan-300 text-slate-900 font-semibold rounded-lg hover:bg-cyan-400 transition-colors duration-200 cursor-pointer group"
+                  className="w-full flex items-center justify-center gap-2 py-2 bg-cyan-300 text-slate-900 font-semibold rounded-lg hover:bg-cyan-400 transition-colors duration-200 cursor-pointer "
                 >
                   {tier.buttonText}
                   <Flag
