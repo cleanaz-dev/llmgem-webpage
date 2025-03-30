@@ -74,7 +74,7 @@ export default function MaintainAndImprove() {
       </div>
 
       {/* Title and Description */}
-      <div className="w-full max-w-4xl mt-10 ">
+      <div className="w-full max-w-4xl mt-8">
         <h1 className="text-left text-white text-4xl mb-4">
           <span className="process-number">
             03

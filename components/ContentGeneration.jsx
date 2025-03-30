@@ -89,12 +89,12 @@ export default function ContentGeneration() {
       {/* Prompt Input with Generate Button Inside */}
       <div className="w-full mt-6 cursor-pointer group">
         <motion.div
-          className="w-full px-4 py-3 rounded-md border border-cyan-500/30 text-slate-300 text-sm font-light relative overflow-hidden flex items-center justify-between group-hover:border-cyan-500/50 transition-all duration-300"
-          onHoverStart={() => setIsActive(true)} // Hover effect for desktop
-          onHoverEnd={() => setIsActive(false)} // Hover effect for desktop
-          onTapStart={() => setIsActive(true)} // Tap effect for mobile
-          onTapEnd={() => setIsActive(false)} // Tap effect for mobile
-          onClick={handleGenerateClick} // Click anywhere to generate
+          className="w-full px-4 py-2.5 rounded-md border border-cyan-500/30 text-slate-300 text-sm font-light relative overflow-hidden flex items-center justify-between group-hover:border-cyan-500/50 transition-all duration-300"
+          onHoverStart={() => setIsActive(true)}
+          onHoverEnd={() => setIsActive(false)} 
+          onTapStart={() => setIsActive(true)} 
+          onTapEnd={() => setIsActive(false)} 
+          onClick={handleGenerateClick}
         >
           {/* Scroll-Up Text Effect */}
           <div className="flex-1 relative overflow-hidden h-6">
