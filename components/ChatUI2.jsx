@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send } from "lucide-react";
 import { Input } from "@/components/ui/input"; 
 import BookingForm from "./BookingForm";
+import { FaGem } from "react-icons/fa";
 
 export default function ChatUI2({
   userInfo,
@@ -13,9 +14,7 @@ export default function ChatUI2({
   onUserInfoSubmit,
 }) {
   // State and refs (unchanged)
-  const [messages, setMessages] = useState([
-    { text: "Hey there! How can I assist you today?", isBot: true },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [localUserInfo, setLocalUserInfo] = useState(userInfo);
@@ -34,10 +33,6 @@ export default function ChatUI2({
           isBooking: true,
         }),
     },
-    {
-      text: "Ask a Question",
-      action: () => addMessage("I have a quick question."),
-    },
   ];
 
   // Effects (unchanged)
@@ -50,6 +45,16 @@ export default function ChatUI2({
   useEffect(() => {
     setLocalUserInfo(userInfo);
   }, [userInfo]);
+
+   // Add this effect to handle the welcome message when user info is submitted
+   useEffect(() => {
+    if (isUserInfoSubmitted) {
+      setMessages([{ 
+        text: `Hey ${userInfo.name}! How can I assist you today?`, 
+        isBot: true 
+      }]);
+    }
+  }, [isUserInfoSubmitted, userInfo.name]);
 
   // Core message functions (unchanged)
   const addMessage = (content, isBot = false) => {
@@ -207,21 +212,33 @@ export default function ChatUI2({
         <span className="text-xs text-slate-500">Powered by LLM GEM</span>
       </div>
 
-      {/* Messages (unchanged) */}
+     
+      {/* Messages */}
       <ScrollArea className="flex-1 h-96 overflow-y-auto">
         <div className="p-2 md:p-4 space-y-4">
-          {messages.map(renderMessage)}
-          {isBotTyping && (
-            <div className="flex items-start gap-2">
-              <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
-                G
-              </div>
-              <div className="max-w-[70%] p-3 rounded-lg bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 flex items-center justify-center">
-                <div className="w-4 h-4 border-2 border-cyan-300 border-t-transparent rounded-full animate-spin"></div>
-              </div>
+          {!isUserInfoSubmitted ? (
+            <div className="h-full flex flex-col items-center mt-auto justify-center py-12 group">
+              <FaGem className="text-3xl md:text-7xl text-cyan-500/30 mb-4 shadow-xl group-hover:scale-125 transition-all duration-700" />
+              <p className="text-slate-500 text-center max-w-xs group-hover:text-cyan-400 transition-all duration-700">
+                Please enter your details to start chatting
+              </p>
             </div>
+          ) : (
+            <>
+              {messages.map(renderMessage)}
+              {isBotTyping && (
+                <div className="flex items-start gap-2">
+                  <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center text-cyan-300 font-bold">
+                    AI
+                  </div>
+                  <div className="max-w-[70%] p-3 rounded-lg bg-[rgba(20,20,40,0.9)] text-slate-300 border border-cyan-500/10 flex items-center justify-center">
+                    <div className="w-4 h-4 border-2 border-cyan-300 border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </>
           )}
-          <div ref={chatEndRef} />
         </div>
       </ScrollArea>
 

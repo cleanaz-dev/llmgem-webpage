@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import CalendarView from "./CalendarView";
 import { BarLoader } from "react-spinners";
 import { formatISO, subDays, addDays } from "date-fns";
+import { Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 
 export default function BookingForm({
   userInfo,
@@ -22,6 +23,7 @@ export default function BookingForm({
   const [resourceId] = useState("0868c571-2c60-4249-842a-fe22bd5ab9c4");
   const [serviceId] = useState("d5fda44e-4e26-4790-9693-00a8b4d54a46");
   const [fetchedRange, setFetchedRange] = useState({ from: null, to: null });
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const availableDates = [
     ...new Set(availableSlots.map((slot) => slot.starts_at.split("T")[0])),
@@ -33,7 +35,7 @@ export default function BookingForm({
     const fetchAvailability = async () => {
       // Use date-fns to calculate the date range
       const from = subDays(currentDate, 15); // 15 days back
-      const to = addDays(currentDate, 15);   // 15 days forward
+      const to = addDays(currentDate, 15); // 15 days forward
 
       // Format dates for Hapio API (Y-m-d\TH:i:sP)
       const hapioFrom = formatISO(from, { representation: "complete" });
@@ -71,7 +73,6 @@ export default function BookingForm({
     fetchAvailability();
   }, [service, locationId, currentDate]);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!service || !selectedSlot || isBookingConfirmed) return; // Prevent submission if confirmed
@@ -100,6 +101,12 @@ export default function BookingForm({
           selectedDate.toISOString().split("T")[0]
       )
     : [];
+
+  useEffect(() => {
+    if (showConfirmation && chatEndRef?.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [showConfirmation, chatEndRef]);
 
   // console.log("Available dates passed to CalendarView:", availableDates);
 
@@ -141,7 +148,6 @@ export default function BookingForm({
           onDateSelect={handleDateSelect}
           selectedDate={selectedDate}
           chatEndRef={chatEndRef}
-         
         />
       )}
 
@@ -189,30 +195,66 @@ export default function BookingForm({
         </div>
       )}
 
-<button
-        type="submit"
-        disabled={!selectedSlot || isBookingConfirmed || isBookingLoading}
-        className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded transition-colors disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
-      >
-        {isBookingLoading ? (
-          <>
-            <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-            </svg>
-            Processing...
-          </>
-        ) : isBookingConfirmed ? (
-          "Booking Confirmed"
-        ) : selectedSlot ? (
-          `Book ${new Date(selectedSlot.starts_at).toLocaleTimeString([], {
+      {isBookingConfirmed ? (
+        <button
+          type="button"
+          className="w-full px-4 py-2 bg-green-500/20 text-green-300 rounded flex items-center justify-center gap-2 cursor-default"
+        >
+          <CheckCircle className="h-4 w-4" />
+          Booking Confirmed
+        </button>
+      ) : isBookingLoading ? (
+        <button
+          type="button"
+          disabled
+          className="w-full px-4 py-2 bg-cyan-500/20 text-cyan-300 rounded flex items-center justify-center gap-2"
+        >
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Processing...
+        </button>
+      ) : !selectedSlot ? (
+        <button
+          type="button"
+          disabled
+          className="w-full px-4 py-2 bg-slate-500/20 text-slate-400 rounded flex items-center justify-center gap-2 cursor-not-allowed"
+        >
+          Select a time slot
+        </button>
+      ) : showConfirmation ? (
+        <div className="space-y-2">
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            className="w-full px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <AlertTriangle className="h-4 w-4" />
+            Confirm Booking for{" "}
+            {new Date(selectedSlot.starts_at).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowConfirmation(false)}
+            className="w-full px-4 py-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded text-sm transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setShowConfirmation(true)}
+          className="w-full px-4 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 rounded transition-colors flex items-center justify-center gap-2 cursor-pointer"
+        >
+          Book{" "}
+          {new Date(selectedSlot.starts_at).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
-          })}`
-        ) : (
-          "Select a time slot"
-        )}
-      </button>
+          })}
+        </button>
+      )}
     </form>
   );
 }
