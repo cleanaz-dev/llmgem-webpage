@@ -17,9 +17,9 @@ export default function Contact() {
       x: 0,
       transition: {
         duration: 0.8,
-        ease: "easeOut"
-      }
-    }
+        ease: "easeOut",
+      },
+    },
   };
 
   return (
@@ -27,10 +27,10 @@ export default function Contact() {
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Animated Left Side */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, margin: "-200px" }}
+            viewport={{ once: true, margin: "-100px 0px" }} // More mobile-friendly margin
             variants={fadeInLeft}
             className="flex flex-col justify-around md:w-1/2"
           >
