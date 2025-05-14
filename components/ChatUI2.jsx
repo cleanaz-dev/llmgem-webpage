@@ -140,9 +140,13 @@ export default function ChatUI2({
       const { confirmation } = await response.json();
       setIsBookingConfirmed(true);
       addMessage({
-        text: `Your booking for ${new Date(
-          startTime
-        ).toLocaleString()} is confirmed, please look out for our email with details.`,
+        text: `🎉 Your booking for ${new Date(startTime).toLocaleDateString([], {
+          month: 'short',
+          day: 'numeric'
+        })} at ${new Date(startTime).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit'
+        })} is confirmed, please look out for our email with details.`,
         isBot: true,
       });
     } catch (error) {

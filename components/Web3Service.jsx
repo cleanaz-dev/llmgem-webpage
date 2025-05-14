@@ -82,7 +82,7 @@ export default function Web3Service() {
       </div>
 
       {/* Middle: Simulation */}
-      <div className="w-full flex-1 px-6 py-1.5 overflow-y-auto flex flex-col items-start overflow-hidden">
+      <div className="w-full h-80 mt-8 px-6 py-1.5 overflow-y-auto flex flex-col items-center overflow-hidden">
         {step === 0 ? (
           <motion.button
             initial={{ opacity: 0 }}

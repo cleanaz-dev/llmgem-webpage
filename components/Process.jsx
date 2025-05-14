@@ -32,7 +32,7 @@ export default function Process() {
       </motion.div>
 
       {/* Analyze Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-auto px-4 md:px-10 lg:px-6 pt-20 max-w-[1500px]">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mx-auto px-4 md:px-32 xl:px-6 pt-20 max-w-[1500px] ">
         <Analyze />
         <BuildAndImplement />
         <MaintainAndImprove />

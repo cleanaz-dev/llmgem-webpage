@@ -68,7 +68,7 @@ export default function WorkflowAutomations() {
       </div>
 
       {/* Title */}
-      <div className="mt-auto w-full text-left">
+      <div className="mt-10 lg:mt-auto w-full text-left">
         <h2 className="service-title">
           Workflow Automations
         </h2>
