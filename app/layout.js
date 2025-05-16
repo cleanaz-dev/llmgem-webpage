@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Inter, Montserrat } from "next/font/google";
 import "./globals.css";
+import { icons } from "lucide-react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,6 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
+  icons: {
+    icon: '/app/favicon.ico'
+  },
   title: "LLM GEM",
   description: "LLM GEM is an AI-powered web development company specializing in cutting-edge automation, AI chatbots, image generation, and smart web solutions. We help businesses of all sizes enhance their digital presence with intelligent, scalable, and innovative technology.",  
 };

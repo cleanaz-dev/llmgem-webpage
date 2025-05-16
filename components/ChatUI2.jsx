@@ -15,6 +15,7 @@ export default function ChatUI2({
 }) {
   // State and refs (unchanged)
   const [messages, setMessages] = useState([]);
+  const [history, setHistory] = useState([])
   const [input, setInput] = useState("");
   const [isBotTyping, setIsBotTyping] = useState(false);
   const [localUserInfo, setLocalUserInfo] = useState(userInfo);
@@ -56,54 +57,55 @@ export default function ChatUI2({
     }
   }, [isUserInfoSubmitted, userInfo.name]);
 
-  // Core message functions (unchanged)
-  const addMessage = (content, isBot = false) => {
-    setMessages((prev) => [
-      ...prev,
-      typeof content === "string" ? { text: content, isBot } : content,
-    ]);
-  };
+// Helper function to add a message and update history
+const addMessage = (text, isBot) => {
+  const newMessage = { text, isBot };
+  setMessages((prev) => [...prev, newMessage]);
+  setHistory((prev) => [...prev, { role: isBot ? "assistant" : "user", content: text }]);
+};
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    if (!input.trim()) return;
+const handleSend = async (e) => {
+  e.preventDefault();
+  if (!input.trim()) return;
 
-    addMessage(input, false);
-    setInput("");
-    setIsBotTyping(true);
+  // Add user message to messages and history
+  addMessage(input, false);
+  setInput("");
+  setIsBotTyping(true);
 
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: input,
-          name: userInfo.name,
-          email: userInfo.email,
-        }),
+  try {
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        message: input,
+        name: userInfo.name,
+        email: userInfo.email,
+        history: history, // Send the history array
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.type === "booking") {
+      addMessage({
+        text: "Let's schedule your call! Please select a service and available time.",
+        isBot: true,
+        isBooking: true,
       });
-
-      const data = await response.json();
-
-      if (data.type === "booking") {
-        addMessage({
-          text: "Let's schedule your call! Please select a service and available time.",
-          isBot: true,
-          isBooking: true,
-        });
-      } else {
-        addMessage(data.response || "Sorry, I couldn't process that.", true);
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      addMessage(
-        "Sorry, I couldn't process your request. Please try again.",
-        true
-      );
-    } finally {
-      setIsBotTyping(false);
+    } else {
+      addMessage(data.response || "Sorry, I couldn't process that.", true);
     }
-  };
+  } catch (error) {
+    console.error("Error:", error);
+    addMessage(
+      "Sorry, I couldn't process your request. Please try again.",
+      true
+    );
+  } finally {
+    setIsBotTyping(false);
+  }
+};
 
   const handleBookingSubmit = async (
     serviceType,
