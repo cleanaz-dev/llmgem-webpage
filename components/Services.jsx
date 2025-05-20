@@ -5,6 +5,7 @@ import ChatDevelopment from "./ChatDevelopment";
 import ContentGeneration from "./ContentGeneration";
 import Web3Service from "./Web3Service";
 import WorkflowAutomations from "./WorkflowAutomations";
+import VoiceAgentServices from "./VoiceAgentServices";
 
 
 // Animation for LLM/GEM text only
@@ -81,6 +82,7 @@ export default function Services() {
         <div className="mx-auto lg:max-w-[1500px] px-4 md:px-32 lg:px-10 xl:px-16 grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-8">
           <ChatDevelopment />
           <ContentGeneration />
+          {/* <VoiceAgentServices /> */}
         </div>
 
         <div className="mx-auto lg:max-w-[1500px] px-4 md:px-32 lg:px-10 xl:px-16  grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-8">

@@ -79,7 +79,7 @@ export default function MaintainAndImprove() {
           <span className="process-number">
             03
           </span>{" "}
-          <span className="tracking-tight">Maintain & Improve</span>
+          <span className="tracking-tight">Maintain</span>
         </h1>
         <p className="process-description">
           We continuously monitor and enhance your AI systems to ensure they

@@ -58,10 +58,26 @@ export default function ChatUI2({
   }, [isUserInfoSubmitted, userInfo.name]);
 
 // Helper function to add a message and update history
-const addMessage = (text, isBot) => {
-  const newMessage = { text, isBot };
+const addMessage = (textOrObject, isBot) => {
+  let newMessage;
+  
+  if (typeof textOrObject === 'object') {
+    // Case when passing an object with text, isBot, and other properties
+    newMessage = textOrObject;
+    isBot = textOrObject.isBot;
+  } else {
+    // Case when passing text and isBot separately
+    newMessage = { text: textOrObject, isBot };
+  }
+  
   setMessages((prev) => [...prev, newMessage]);
-  setHistory((prev) => [...prev, { role: isBot ? "assistant" : "user", content: text }]);
+  
+  // For history, always use string content
+  const content = typeof textOrObject === 'object' ? textOrObject.text : textOrObject;
+  setHistory((prev) => [...prev, { 
+    role: isBot ? "assistant" : "user", 
+    content 
+  }]);
 };
 
 const handleSend = async (e) => {

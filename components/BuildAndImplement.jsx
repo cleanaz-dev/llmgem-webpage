@@ -129,7 +129,7 @@ h1 {
           <span className="process-number">
             02
           </span>{" "}
-          <span className="tracking-tight">Build & Implement</span>
+          <span className="tracking-tight">Build</span>
         </h1>
         <p className="process-description">
           Then, our developers will start crafting custom AI-solutions for your
